@@ -1,118 +1,138 @@
-Sales Data Analysis Using SQL
-📌 Project Overview
+Sales Data Analysis Using SQL 📊
+Project Overview
 
-This project focuses on analyzing sales data using MySQL to generate meaningful business insights. A structured sales database was designed using fact and dimension tables, including products, customers, territories, calendar, and returns data.
+This project demonstrates Sales Data Analysis using MySQL, focusing on transforming raw sales data into actionable business insights. The analysis covers sales trends, customer behavior, product performance, and regional revenue distribution using SQL queries, window functions, and stored procedures.
 
-The project demonstrates a complete SQL data analysis workflow—from data loading and cleaning to advanced querying and reporting.
+The project uses a star-schema–like database design, including fact and dimension tables, to simulate real-world sales data analysis workflows.
 
 🗂 Database Structure
-
-The database follows a star-schema–like design and includes:
-
 Fact Table
 
-fact_sales
+fact_sales – Contains transactional sales data including order dates, products, customers, and sales territories.
 
 Dimension Tables
 
-product
+product – Product details including name, price, and cost.
 
-customer_lookup
+product_subcategory – Subcategories for products.
 
-territory
+product_category – Categories for products.
 
-calendar
+customer_lookup – Customer details including birth date and full name.
 
-returns_data
+territory – Sales territories and regions.
 
-product_category
+calendar – Date information for time-based analysis.
 
-product_subcategory
+returns_data – Information about returned products.
 
 ⚙️ Tools & Technologies
 
-MySQL
-
-SQL
+MySQL 8.0
 
 MySQL Workbench
 
-CSV Files
+SQL (JOINs, CTEs, Window Functions, Stored Procedures)
+
+CSV Files (Data Sources)
 
 🔄 Project Workflow
 1️⃣ Database Creation
-
-Created a sales database in MySQL.
-
-Designed fact and dimension tables for structured and efficient analysis.
+CREATE DATABASE sales;
+USE sales;
 
 2️⃣ Data Loading
 
-Imported dimension tables using MySQL Table Data Import Wizard.
+Dimension tables – Imported via MySQL Table Data Import Wizard.
 
-Loaded large fact table data using LOAD DATA INFILE for fast bulk insertion.
+Fact table (fact_sales) – Loaded using LOAD DATA INFILE for bulk insertion:
+
+SET GLOBAL local_infile = 1;
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Fact Sales Data.csv'
+INTO TABLE fact_sales
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 ROWS
+(OrderDate, StockDate, OrderNumber, ProductKey, CustomerKey, TerritoryKey, OrderLineItem, OrderQuantity);
 
 3️⃣ Data Cleaning & Transformation
 
-Converted date columns into proper DATE format.
+Convert date columns to proper DATE format:
 
-Updated numeric fields to correct data types such as INT and DECIMAL.
+UPDATE calendar SET date = STR_TO_DATE(date,'%m/%d/%Y');
+ALTER TABLE calendar MODIFY COLUMN date DATE;
+
+
+Apply numeric data types (INT, DECIMAL) to numeric fields like ProductPrice and ProductCost.
 
 4️⃣ Data Analysis
 
-Wrote complex SQL queries using JOINs and CTEs.
+Used JOINs to combine fact and dimension tables.
 
-Applied window functions such as LAG, RANK, and ROW_NUMBER.
+Applied window functions (LAG, RANK, ROW_NUMBER) for trend and ranking analysis.
 
-Created stored procedures for reusable and dynamic analysis.
+Created stored procedures for reusable queries.
 
 📊 Key Analysis & Insights
 
 Total sales quantity per product
 
-Total revenue by region
+Total sales revenue per region
 
-Revenue by product category
+Revenue per product category
 
-Top-spending and repeat customers
+Top 10 customers by spending
 
-Month-to-month sales comparison
+Total orders by region
 
-Product return percentage
+Revenue for a given category (stored procedure)
 
-Most popular products in each category
+Products sold in a date range (stored procedure)
+
+Month-to-month sales comparison (using LAG)
+
+Number of orders per customer (using ROW_NUMBER)
+
+Repeat customers
+
+Percentage of returned products
+
+Most popular product in each category
+
+Top-spending customer per region
+
+Difference between product price and category average
 
 Customers ordering from multiple territories
 
 🧠 Advanced SQL Concepts Used
 
-JOINs
+JOINs – Inner, Left, and Multi-table joins
 
-CTE (Common Table Expressions)
+CTE (Common Table Expressions) – For modular queries
 
-Window Functions (LAG, RANK, ROW_NUMBER)
+Window Functions – LAG, RANK, ROW_NUMBER, AVG() OVER()
 
-Stored Procedures
+Stored Procedures – Dynamic and reusable queries
 
-Aggregate Functions
+Aggregate Functions – SUM, COUNT, AVG
 
-GROUP BY & HAVING
+GROUP BY & HAVING – For summary and conditional aggregation
 
-Subqueries
+Subqueries – Nested queries for advanced insights
 
 📁 Files Included
-
-sales_project.sql – Complete SQL queries and stored procedures
-
-sales_project.pdf – Project report and explanation
-
-README.md – Project documentation
-
+File	Description
+sales_project.sql	Complete SQL queries, stored procedures, and data cleaning scripts
+sales_project.pdf	Project report with explanations and visual insights
+README.md	Project documentation
+CSV Files	Raw data sources for fact and dimension tables
 ✅ Conclusion
 
-This project demonstrates strong practical skills in SQL, including database design, data cleaning, advanced querying, and business-oriented analysis. It reflects real-world sales analysis scenarios and supports data-driven decision-making.
+This project demonstrates a comprehensive SQL workflow from database creation, data cleaning, to advanced analysis. It highlights real-world business scenarios such as sales trend monitoring, customer behavior analysis, and revenue insights—helping organizations make data-driven decisions.
 
+👤 Author
 
-## 👤 Author
-Al Fahim Fuyad
+Al Fahim Fuad
 BSc in CSE, East West University
